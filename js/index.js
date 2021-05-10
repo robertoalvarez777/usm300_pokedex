@@ -15,6 +15,13 @@ tinymce.init({
     content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
   });
 
+  const enviarProfeOak = function(){
+    //siempre this me devuelve una referencia al elemento
+    //En este caso el botton
+    let nro = this.nro;
+    pokemones.splice(nro,1);
+    cargarTabla();
+  }
   const pokemones = [];//Definir un arreglo
   const cargarTabla = ()=>{
   
@@ -59,9 +66,17 @@ tinymce.init({
       tdTipo.appendChild(tipo); 
       //Para agregar un elemente dentro de otro se usa appendChild
       //Cuando quiero definir txto se usa innerText
-
       tdDescripcion.innerHTML = p.descripcion;
-      //To do: Que hago con las acciones!
+
+      let boton = document.createElement("button");
+      boton.classList.add("btn","btn-danger");
+      boton.innerText = "Enviar al profesor oak";
+
+      boton.nro = i;
+      tdAcciones.appendChild(boton);
+      tdAcciones.classList.add("text-center");
+
+      boton.addEventListener("click",enviarProfeOak)
       //5. Agregar los td al tr
       tr.appendChild(tdNro);
       tr.appendChild(tdNombre);
@@ -76,7 +91,7 @@ tinymce.init({
 
   document.querySelector("#registrar-btn").addEventListener("click", ()=>{
       let nombre = document.querySelector("#nombre-txt").value;
-      let tipo = document.querySelector("#tipo-select").value;
+      let tipo = document.querySelector("#tipo-txt").value;
       let legendario = document.querySelector("#legendario-si").checked;
       let descripcion = tinymce.get("descripcion-txt").getContent();
       
